@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>URLSniper - Premium Downloader</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at top left,#172554 0,transparent 35%),
+    radial-gradient(circle at top right,#3b0764 0,transparent 30%),
+    #050816;
+  color:#fff;
+  min-height:100vh;
+}
+
+.container{
+  width:min(1150px,94%);
+  margin:auto;
+}
+
+header{
+  padding:22px 0;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:24px;
+  font-weight:800;
+}
+
+.logoIcon{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#7c3aed,#06b6d4);
+  box-shadow:0 0 25px rgba(124,58,237,.5);
+  font-size:20px;
+}
+
+.online{
+  font-size:12px;
+  padding:7px 12px;
+  border-radius:20px;
+  background:rgba(34,197,94,.12);
+  border:1px solid rgba(34,197,94,.3);
+  color:#86efac;
+}
+
+.hero{
+  text-align:center;
+  padding:60px 0 35px;
+}
+
+.hero h1{
+  font-size:clamp(38px,7vw,72px);
+  line-height:1;
+  font-weight:900;
+  background:linear-gradient(90deg,#fff,#a78bfa,#67e8f9,#fff);
+  background-size:300%;
+  -webkit-background-clip:text;
+  color:transparent;
+  animation:shine 6s linear infinite;
+}
+
+@keyframes shine{
+  0%{background-position:0}
+  100%{background-position:300%}
+}
+
+.hero p{
+  margin-top:18px;
+  color:#a5b4fc;
+  font-size:17px;
+}
+
+.card{
+  background:rgba(15,23,42,.76);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:24px;
+  padding:24px;
+  margin-bottom:22px;
+  box-shadow:0 20px 60px rgba(0,0,0,.28);
+  backdrop-filter:blur(16px);
+}
+
+.urlRow{
+  display:flex;
+  gap:10px;
+}
+
+input,select{
+  width:100%;
+  background:#080d1d;
+  color:#fff;
+  border:1px solid #26324d;
+  border-radius:14px;
+  padding:15px;
+  outline:none;
+  font-size:15px;
+}
+
+input:focus,select:focus{
+  border-color:#7c3aed;
+  box-shadow:0 0 0 3px rgba(124,58,237,.12);
+}
+
+button{
+  border:0;
+  border-radius:13px;
+  padding:13px 18px;
+  cursor:pointer;
+  color:white;
+  font-weight:700;
+  transition:.2s;
+}
+
+button:hover{
+  transform:translateY(-1px);
+}
+
+.btnPrimary{
+  background:linear-gradient(135deg,#7c3aed,#2563eb);
+}
+
+.btnGreen{
+  background:linear-gradient(135deg,#059669,#16a34a);
+}
+
+.btnBlue{
+  background:linear-gradient(135deg,#0891b2,#2563eb);
+}
+
+.btnDanger{
+  background:#7f1d1d;
+}
+
+.btnDark{
+  background:#172033;
+  border:1px solid #26324d;
+}
+
+.preview{
+  display:none;
+  grid-template-columns:220px 1fr;
+  gap:20px;
+  align-items:center;
+  margin-top:20px;
+}
+
+.preview img{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  border-radius:15px;
+  background:#020617;
+}
+
+.preview h2{
+  font-size:23px;
+  margin-bottom:10px;
+}
+
+.meta{
+  color:#94a3b8;
+  line-height:1.7;
+}
+
+.options{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-top:20px;
+}
+
+.option{
+  background:rgba(2,6,23,.55);
+  border:1px solid #202b44;
+  border-radius:17px;
+  padding:17px;
+}
+
+.option label{
+  display:block;
+  color:#94a3b8;
+  font-size:13px;
+  margin-bottom:8px;
+}
+
+.downloadButtons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+  margin-top:20px;
+}
+
+.bigBtn{
+  padding:17px;
+  font-size:16px;
+}
+
+.progressCard{
+  display:none;
+}
+
+.progressTop{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.progressPercent{
+  font-size:25px;
+  font-weight:800;
+}
+
+.progressBar{
+  height:12px;
+  background:#0b1224;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.progressFill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#7c3aed,#06b6d4);
+  transition:width .3s;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:17px;
+}
+
+.stat{
+  background:#080d1d;
+  border:1px solid #1d2941;
+  padding:13px;
+  border-radius:13px;
+}
+
+.stat small{
+  color:#64748b;
+  display:block;
+  margin-bottom:5px;
+}
+
+.stat b{
+  font-size:14px;
+}
+
+.queueHeader,.historyHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.badge{
+  background:#312e81;
+  padding:5px 10px;
+  border-radius:20px;
+  font-size:12px;
+}
+
+.queueItem,.historyItem{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:15px;
+  margin-top:10px;
+  border-radius:15px;
+  background:#080d1d;
+  border:1px solid #1b2740;
+}
+
+.itemInfo{
+  min-width:0;
+  flex:1;
+}
+
+.itemTitle{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  font-weight:700;
+}
+
+.itemMeta{
+  color:#64748b;
+  font-size:12px;
+  margin-top:6px;
+}
+
+.status{
+  font-size:12px;
+  padding:6px 9px;
+  border-radius:15px;
+  white-space:nowrap;
+}
+
+.waiting{background:#172033;color:#cbd5e1}
+.downloading{background:#172554;color:#93c5fd}
+.completed{background:#052e1b;color:#86efac}
+.failed{background:#450a0a;color:#fca5a5}
+
+.itemActions{
+  display:flex;
+  gap:7px;
+}
+
+.itemActions button{
+  padding:8px 10px;
+  font-size:12px;
+}
+
+.historyTools{
+  display:flex;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.toastBox{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:9999;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.toast{
+  min-width:260px;
+  max-width:360px;
+  padding:14px 16px;
+  border-radius:14px;
+  background:#111827;
+  border:1px solid #334155;
+  box-shadow:0 15px 40px rgba(0,0,0,.4);
+  animation:toastIn .25s ease;
+}
+
+@keyframes toastIn{
+  from{transform:translateX(30px);opacity:0}
+  to{transform:translateX(0);opacity:1}
+}
+
+.empty{
+  text-align:center;
+  color:#64748b;
+  padding:25px;
+}
+
+footer{
+  text-align:center;
+  color:#475569;
+  padding:25px 0 40px;
+  font-size:13px;
+}
+
+@media(max-width:800px){
+  .options{
+    grid-template-columns:1fr;
+  }
+
+  .preview{
+    grid-template-columns:1fr;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:600px){
+  .urlRow{
+    flex-direction:column;
+  }
+
+  .downloadButtons{
+    grid-template-columns:1fr;
+  }
+
+  .queueItem,.historyItem{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .itemActions{
+    width:100%;
+  }
+
+  .itemActions button{
+    flex:1;
+  }
+
+  .hero{
+    padding-top:40px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+    <div class="logo">
+      <div class="logoIcon">⚡</div>
+      URLSniper
+    </div>
+    <div class="online">● ONLINE</div>
+  </div>
+</header>
+
+<main class="container">
+
+<section class="hero">
+  <h1>Download Anything.</h1>
+  <p>Fast • Simple • Premium YouTube Downloader</p>
+</section>
+
+<section class="card">
+
+  <div class="urlRow">
+    <input id="urlInput"
+      type="text"
+      placeholder="Paste YouTube URL here..."
+      autocomplete="off">
+
+    <button class="btnDark" onclick="pasteURL()">Paste</button>
+    <button class="btnDark" onclick="clearURL()">Clear</button>
+  </div>
+
+  <div id="preview" class="preview">
+
+    <img id="thumb" src="" alt="Thumbnail">
+
+    <div>
+      <h2 id="videoTitle">Video title</h2>
+      <div class="meta">
+        <div id="uploader">—</div>
+        <div id="duration">Duration: —</div>
+        <div id="available">Available qualities: —</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="options">
+
+    <div class="option">
+      <label>Video Format</label>
+      <select id="videoFormat">
+        <option value="mp4">MP4</option>
+        <option value="webm">WebM</option>
+      </select>
+    </div>
+
+    <div class="option">
+      <label>Video Quality</label>
+      <select id="videoQuality">
+        <option value="best">Best Available</option>
+        <option value="1080">1080p</option>
+        <option value="720">720p</option>
+        <option value="480">480p</option>
+        <option value="360">360p</option>
+      </select>
+    </div>
+
+    <div class="option">
+      <label>MP3 Quality</label>
+      <select id="mp3Quality">
+        <option value="128K">128K</option>
+        <option value="192K">192K</option>
+        <option value="256K">256K</option>
+        <option value="320K" selected>320K</option>
+      </select>
+    </div>
+
+  </div>
+
+  <div class="downloadButtons">
+
+    <button id="videoBtn"
+      class="btnPrimary bigBtn"
+      onclick="downloadVideo()">
+      🎬 Download Video
+    </button>
+
+    <button id="mp3Btn"
+      class="btnGreen bigBtn"
+      onclick="downloadMP3()">
+      🎵 Download MP3
+    </button>
+
+  </div>
+
+</section>
+
+<section id="progressCard" class="card progressCard">
+
+  <div class="progressTop">
+    <div>
+      <div id="progressStatus">Preparing download...</div>
+      <small id="progressFilename">—</small>
+    </div>
+
+    <div id="progressPercent" class="progressPercent">0%</div>
+  </div>
+
+  <div class="progressBar">
+    <div id="progressFill" class="progressFill"></div>
+  </div>
+
+  <div class="stats">
+
+    <div class="stat">
+      <small>SPEED</small>
+      <b id="speed">—</b>
+    </div>
+
+    <div class="stat">
+      <small>SIZE</small>
+      <b id="size">—</b>
+    </div>
+
+    <div class="stat">
+      <small>ETA</small>
+      <b id="eta">—</b>
+    </div>
+
+    <div class="stat">
+      <small>STATUS</small>
+      <b id="statusText">Waiting</b>
+    </div>
+
+  </div>
+
+  <div style="display:flex;gap:10px;margin-top:18px">
+    <button class="btnDanger" onclick="cancelDownload()">✕ Cancel</button>
+    <button id="fileBtn" class="btnBlue" onclick="downloadFile()" style="display:none">
+      ⬇ Download File
+    </button>
+  </div>
+
+</section>
+
+<section class="card">
+
+  <div class="queueHeader">
+    <h2>📋 Download Queue</h2>
+    <div>
+      <span id="queueCount" class="badge">0</span>
+      <button class="btnDanger" onclick="clearQueue()">Clear Queue</button>
+    </div>
+  </div>
+
+  <div id="queueList">
+    <div class="empty">Queue is empty</div>
+  </div>
+
+</section>
+
+<section class="card">
+
+  <div class="historyHeader">
+    <h2>🕘 Download History</h2>
+    <button class="btnDanger" onclick="clearHistory()">Clear All</button>
+  </div>
+
+  <div class="historyTools">
+
+    <input id="historySearch"
+      placeholder="Search downloads..."
+      oninput="renderHistory()">
+
+    <select id="historyFilter" onchange="renderHistory()">
+      <option value="all">All</option>
+      <option value="video">Video</option>
+      <option value="mp3">MP3</option>
+    </select>
+
+  </div>
+
+  <div id="historyList">
+    <div class="empty">No download history</div>
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  URLSniper © 2026 • Premium Downloader
+</footer>
+
+<div id="toastBox" class="toastBox"></div>
+
+<script>
+
+let queueData = [];
+let historyData = [];
+let progressTimer = null;
+let queueTimer = null;
+let currentFile = null;
+
+const $ = id => document.getElementById(id);
+
+function toast(message){
+
+  const box = $("toastBox");
+
+  const el = document.createElement("div");
+  el.className = "toast";
+  el.textContent = message;
+
+  box.appendChild(el);
+
+  setTimeout(()=>{
+    el.remove();
+  },3500);
+}
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+async function pasteURL(){
+
+  try{
+
+    const text = await navigator.clipboard.readText();
+
+    $("urlInput").value = text;
+
+    fetchInfo();
+
+  }catch(e){
+
+    toast("Clipboard permission unavailable");
+
+  }
+}
+
+function clearURL(){
+
+  $("urlInput").value = "";
+
+  $("preview").style.display = "none";
+
+}
+
+let infoTimer;
+
+$("urlInput").addEventListener("input",()=>{
+
+  clearTimeout(infoTimer);
+
+  infoTimer = setTimeout(()=>{
+
+    const url = $("urlInput").value.trim();
+
+    if(url) fetchInfo();
+
+  },700);
+
+});
+
+async function fetchInfo(){
+
+  const url = $("urlInput").value.trim();
+
+  if(!url) return;
+
+  try{
+
+    const response = await fetch("/api/info",{
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":"application/json"
+      },
+
+      body:JSON.stringify({url})
+
+    });
+
+    const data = await response.json();
+
+    if(!data.success){
+
+      throw new Error(data.error || "Unable to fetch video information");
+
+    }
+
+    $("preview").style.display = "grid";
+
+    $("thumb").src = data.thumbnail || "";
+
+    $("videoTitle").textContent = data.title || "Unknown title";
+
+    $("uploader").textContent =
+      data.uploader ? "Channel: " + data.uploader : "";
+
+    $("duration").textContent =
+      data.duration ? "Duration: " + formatDuration(data.duration) : "Duration: —";
+
+    if(data.availableHeights && data.availableHeights.length){
+
+      $("available").textContent =
+        "Available qualities: " +
+        data.availableHeights.join("p, ") + "p";
+
+      updateQualityOptions(data.availableHeights);
+
+    }else{
+
+      $("available").textContent = "Available qualities: Auto";
+
+    }
+
+  }catch(error){
+
+    $("preview").style.display = "none";
+
+    toast(error.message || "Unable to fetch video information");
+
+  }
+
+}
+
+function updateQualityOptions(heights){
+
+  const select = $("videoQuality");
+
+  [...select.options].forEach(option=>{
+
+    if(option.value === "best"){
+
+      option.disabled = false;
+      return;
+
+    }
+
+    const h = Number(option.value);
+
+    option.disabled = !heights.some(x=>Number(x) >= h);
+
+  });
+
+}
+
+function formatDuration(seconds){
+
+  seconds = Number(seconds || 0);
+
+  const h = Math.floor(seconds/3600);
+
+  const m = Math.floor((seconds%3600)/60);
+
+  const s = Math.floor(seconds%60);
+
+  if(h){
+
+    return `${h}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+
+  }
+
+  return `${m}:${String(s).padStart(2,"0")}`;
+
+}
+
+async function downloadVideo(){
+
+  const url = $("urlInput").value.trim();
+
+  if(!url){
+
+    toast("Please enter a YouTube URL");
+
+    return;
+
+  }
+
+  const job = {
+
+    url,
+
+    type:"video",
+
+    format:$("videoFormat").value,
+
+    quality:$("videoQuality").value
+
+  };
+
+  await addDownload(job);
+
+}
+
+async function downloadMP3(){
+
+  const url = $("urlInput").value.trim();
+
+  if(!url){
+
+    toast("Please enter a YouTube URL");
+
+    return;
+
+  }
+
+  const job = {
+
+    url,
+
+    type:"mp3",
+
+    quality:$("mp3Quality").value
+
+  };
+
+  await addDownload(job);
+
+}
+
+async function addDownload(job){
+
+  try{
+
+    const endpoint =
+      job.type === "mp3"
+      ? "/api/mp3"
+      : "/api/download";
+
+    const response = await fetch(endpoint,{
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":"application/json"
+      },
+
+      body:JSON.stringify(job)
+
+    });
+
+    const data = await response.json();
+
+    if(!data.success){
+
+      throw new Error(data.error || "Download could not be started");
+
+    }
+
+    toast("Added to download queue");
+
+    loadQueue();
+
+  }catch(error){
+
+    toast(error.message);
+
+  }
+
+}
+
+async function loadQueue(){
+
+  try{
+
+    const response = await fetch("/api/queue");
+
+    const data = await response.json();
+
+    if(!data.success) return;
+
+    queueData = data.queue || [];
+
+    $("queueCount").textContent = data.count ?? queueData.length;
+
+    renderQueue();
+
+  }catch(e){}
+
+}
+
+function renderQueue(){
+
+  const box = $("queueList");
+
+  if(!queueData.length){
+
+    box.innerHTML =
+      '<div class="empty">Queue is empty</div>';
+
+    return;
+
+  }
+
+  box.innerHTML = queueData.map(item=>{
+
+    const title =
+      item.title ||
+      item.filename ||
+      item.url ||
+      "Download";
+
+    const type =
+      item.type === "mp3"
+      ? "🎵 MP3"
+      : "🎬 Video";
+
+    const status =
+      String(item.status || "Waiting").toLowerCase();
+
+    return `
+
+      <div class="queueItem">
+
+        <div class="itemInfo">
+
+          <div class="itemTitle">
+            ${escapeHTML(title)}
+          </div>
+
+          <div class="itemMeta">
+            ${type} • ${escapeHTML(item.quality || item.format || "")}
+          </div>
+
+        </div>
+
+        <span class="status ${status}">
+          ${escapeHTML(item.status || "Waiting")}
+        </span>
+
+        <div class="itemActions">
+
+          ${
+            item.status === "Failed"
+            ? `<button class="btnBlue"
+                 onclick="retryQueue('${item.id}')">
+                 Retry
+               </button>`
+            : ""
+          }
+
+          ${
+            item.status !== "Downloading"
+            ? `<button class="btnDanger"
+                 onclick="removeQueue('${item.id}')">
+                 Remove
+               </button>`
+            : ""
+          }
+
+        </div>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+}
+
+async function removeQueue(id){
+
+  try{
+
+    await fetch("/api/queue/"+encodeURIComponent(id),{
+      method:"DELETE"
+    });
+
+    loadQueue();
+
+  }catch(e){}
+
+}
+
+async function retryQueue(id){
+
+  try{
+
+    const response =
+      await fetch("/api/queue/"+encodeURIComponent(id)+"/retry",{
+        method:"POST"
+      });
+
+    const data = await response.json();
+
+    if(!data.success){
+
+      throw new Error(data.error || "Retry failed");
+
+    }
+
+    toast("Download retry added");
+
+    loadQueue();
+
+  }catch(error){
+
+    toast(error.message);
+
+  }
+
+}
+
+async function clearQueue(){
+
+  if(!confirm("Clear the download queue?")) return;
+
+  try{
+
+    await fetch("/api/queue",{
+      method:"DELETE"
+    });
+
+    loadQueue();
+
+    toast("Queue cleared");
+
+  }catch(e){}
+
+}
+
+async function loadProgress(){
+
+  try{
+
+    const response = await fetch("/api/progress");
+
+    const data = await response.json();
+
+    if(!data.success) return;
+
+    const p = data.progress || data || {};
+
+    if(!p.active && !p.status){
+
+      return;
+
+    }
+
+    $("progressCard").style.display = "block";
+
+    const percent =
+      Math.max(0,Math.min(100,Number(p.percent || 0)));
+
+    $("progressPercent").textContent =
+      percent.toFixed(1) + "%";
+
+    $("progressFill").style.width =
+      percent + "%";
+
+    $("progressStatus").textContent =
+      p.status || "Downloading...";
+
+    $("progressFilename").textContent =
+      p.filename || "—";
+
+    $("speed").textContent =
+      p.speed || "—";
+
+    $("size").textContent =
+      p.size || "—";
+
+    $("eta").textContent =
+      p.eta || "—";
+
+    $("statusText").textContent =
+      p.status || "Downloading";
+
+    if(p.file){
+
+      currentFile = p.file;
+
+      $("fileBtn").style.display = "inline-block";
+
+    }
+
+  }catch(e){}
+
+}
+
+async function cancelDownload(){
+
+  try{
+
+    const response = await fetch("/api/cancel",{
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":"application/json"
+      }
+
+    });
+
+    const data = await response.json();
+
+    if(data.success){
+
+      toast("Download cancelled");
+
+      loadQueue();
+
+    }else{
+
+      toast(data.error || "Nothing to cancel");
+
+    }
+
+  }catch(e){
+
+    toast("Cancel failed");
+
+  }
+
+}
+
+function downloadFile(){
+
+  if(!currentFile){
+
+    toast("File is not ready yet");
+
+    return;
+
+  }
+
+  window.location.href =
+    "/api/download-file?file=" +
+    encodeURIComponent(currentFile);
+
+}
+
+async function loadHistory(){
+
+  try{
+
+    const response =
+      await fetch("/api/history");
+
+    const data =
+      await response.json();
+
+    if(!data.success) return;
+
+    historyData = data.history || [];
+
+    renderHistory();
+
+  }catch(e){}
+
+}
+
+function renderHistory(){
+
+  const box = $("historyList");
+
+  const search =
+    $("historySearch").value.toLowerCase().trim();
+
+  const filter =
+    $("historyFilter").value;
+
+  const filtered =
+    historyData.filter(item=>{
+
+      const text =
+        JSON.stringify(item).toLowerCase();
+
+      const searchOK =
+        !search || text.includes(search);
+
+      const typeOK =
+        filter === "all" ||
+        item.type === filter;
+
+      return searchOK && typeOK;
+
+    });
+
+  if(!filtered.length){
+
+    box.innerHTML =
+      '<div class="empty">No matching downloads</div>';
+
+    return;
+
+  }
+
+  box.innerHTML = filtered.map(item=>{
+
+    const type =
+      item.type === "mp3"
+      ? "🎵 MP3"
+      : "🎬 Video";
+
+    const title =
+      item.title ||
+      item.filename ||
+      "Downloaded file";
+
+    return `
+
+      <div class="historyItem">
+
+        <div class="itemInfo">
+
+          <div class="itemTitle">
+            ${escapeHTML(title)}
+          </div>
+
+          <div class="itemMeta">
+            ${type}
+            •
+            ${escapeHTML(item.quality || item.format || "")}
+          </div>
+
+        </div>
+
+        <div class="itemActions">
+
+          ${
+            item.file
+            ? `<button class="btnBlue"
+                 onclick="downloadHistoryFile('${encodeURIComponent(item.file)}')">
+                 Download
+               </button>`
+            : ""
+          }
+
+          <button class="btnDanger"
+            onclick="deleteHistory('${item.id}')">
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+}
+
+function downloadHistoryFile(file){
+
+  window.location.href =
+    "/api/download-file?file=" + file;
+
+}
+
+async function deleteHistory(id){
+
+  try{
+
+    await fetch(
+      "/api/history/"+encodeURIComponent(id),
+      {method:"DELETE"}
+    );
+
+    loadHistory();
+
+  }catch(e){}
+
+}
+
+async function clearHistory(){
+
+  if(!confirm("Clear all download history?")) return;
+
+  try{
+
+    await fetch("/api/history",{
+      method:"DELETE"
+    });
+
+    historyData = [];
+
+    renderHistory();
+
+    toast("History cleared");
+
+  }catch(e){}
+
+}
+
+loadQueue();
+
+loadHistory();
+
+loadProgress();
+
+queueTimer =
+  setInterval(loadQueue,1500);
+
+progressTimer =
+  setInterval(loadProgress,800);
+
+</script>
+
+<div style="text-align:center; padding:20px;">
+    <a href="/privacy">Privacy Policy</a>
+    &nbsp; | &nbsp;
+    <a href="/terms">Terms & Conditions</a>
+    &nbsp; | &nbsp;
+    <a href="/contact">Contact Us</a>
+    &nbsp; | &nbsp;
+    <a href="/about">About Us</a>
+</div>
+
+</body>
+</html>

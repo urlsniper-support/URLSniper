@@ -1,0 +1,17 @@
+{
+  "name": "urlsniper",
+  "version": "1.0.0",
+  "description": "URLSniper Downloader",
+  "main": "server.js",
+  "scripts": {
+    "build": "echo build",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
