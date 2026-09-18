@@ -1,4 +1,4 @@
-const express = require("express");
+﻿const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const { spawn, execFile } = require("child_process");
@@ -595,9 +595,7 @@ app.post(
 
                     return res.status(400).json({
                         success: false,
-                        error:
-                            errorOutput.trim() ||
-                            "Unable to fetch video information"
+                        error: /Sign in to confirm|not a bot|bot/i.test(errorOutput) ? "YouTube requires sign-in verification for this video." : (errorOutput.trim() || "Unable to fetch video information")
                     });
                 }
 
@@ -1257,6 +1255,7 @@ app.listen(
         console.log("");
     }
 );
+
 
 
 
