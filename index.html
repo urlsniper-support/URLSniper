@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -433,10 +433,10 @@ footer{
 <header>
   <div class="container nav">
     <div class="logo">
-      <div class="logoIcon">⚡</div>
+      <div class="logoIcon">âš¡</div>
       URLSniper
     </div>
-    <div class="online">● ONLINE</div>
+    <div class="online">â— ONLINE</div>
   </div>
 </header>
 
@@ -444,7 +444,7 @@ footer{
 
 <section class="hero">
   <h1>Download Anything.</h1>
-  <p>Fast • Simple • Premium YouTube Downloader</p>
+  <p>Fast â€¢ Simple â€¢ Premium YouTube Downloader</p>
 </section>
 
 <section class="card">
@@ -466,9 +466,9 @@ footer{
     <div>
       <h2 id="videoTitle">Video title</h2>
       <div class="meta">
-        <div id="uploader">—</div>
-        <div id="duration">Duration: —</div>
-        <div id="available">Available qualities: —</div>
+        <div id="uploader">â€”</div>
+        <div id="duration">Duration: â€”</div>
+        <div id="available">Available qualities: â€”</div>
       </div>
     </div>
 
@@ -512,13 +512,13 @@ footer{
     <button id="videoBtn"
       class="btnPrimary bigBtn"
       onclick="downloadVideo()">
-      🎬 Download Video
+      ðŸŽ¬ Download Video
     </button>
 
     <button id="mp3Btn"
       class="btnGreen bigBtn"
       onclick="downloadMP3()">
-      🎵 Download MP3
+      ðŸŽµ Download MP3
     </button>
 
   </div>
@@ -530,7 +530,7 @@ footer{
   <div class="progressTop">
     <div>
       <div id="progressStatus">Preparing download...</div>
-      <small id="progressFilename">—</small>
+      <small id="progressFilename">â€”</small>
     </div>
 
     <div id="progressPercent" class="progressPercent">0%</div>
@@ -544,17 +544,17 @@ footer{
 
     <div class="stat">
       <small>SPEED</small>
-      <b id="speed">—</b>
+      <b id="speed">â€”</b>
     </div>
 
     <div class="stat">
       <small>SIZE</small>
-      <b id="size">—</b>
+      <b id="size">â€”</b>
     </div>
 
     <div class="stat">
       <small>ETA</small>
-      <b id="eta">—</b>
+      <b id="eta">â€”</b>
     </div>
 
     <div class="stat">
@@ -565,9 +565,9 @@ footer{
   </div>
 
   <div style="display:flex;gap:10px;margin-top:18px">
-    <button class="btnDanger" onclick="cancelDownload()">✕ Cancel</button>
+    <button class="btnDanger" onclick="cancelDownload()">âœ• Cancel</button>
     <button id="fileBtn" class="btnBlue" onclick="downloadFile()" style="display:none">
-      ⬇ Download File
+      â¬‡ Download File
     </button>
   </div>
 
@@ -576,7 +576,7 @@ footer{
 <section class="card">
 
   <div class="queueHeader">
-    <h2>📋 Download Queue</h2>
+    <h2>ðŸ“‹ Download Queue</h2>
     <div>
       <span id="queueCount" class="badge">0</span>
       <button class="btnDanger" onclick="clearQueue()">Clear Queue</button>
@@ -592,7 +592,7 @@ footer{
 <section class="card">
 
   <div class="historyHeader">
-    <h2>🕘 Download History</h2>
+    <h2>ðŸ•˜ Download History</h2>
     <button class="btnDanger" onclick="clearHistory()">Clear All</button>
   </div>
 
@@ -619,7 +619,7 @@ footer{
 </main>
 
 <footer>
-  URLSniper © 2026 • Premium Downloader
+  URLSniper Â© 2026 â€¢ Premium Downloader
 </footer>
 
 <div id="toastBox" class="toastBox"></div>
@@ -738,7 +738,7 @@ async function fetchInfo(){
       data.uploader ? "Channel: " + data.uploader : "";
 
     $("duration").textContent =
-      data.duration ? "Duration: " + formatDuration(data.duration) : "Duration: —";
+      data.duration ? "Duration: " + formatDuration(data.duration) : "Duration: â€”";
 
     if(data.availableHeights && data.availableHeights.length){
 
@@ -758,7 +758,17 @@ async function fetchInfo(){
 
     $("preview").style.display = "none";
 
-    toast(error.message || "Unable to fetch video information");
+    const msg = error.message || "";
+
+    if(
+      msg.includes("Sign in to confirm") ||
+      msg.includes("not a bot") ||
+      msg.includes("bot")
+    ){
+      toast("YouTube requires sign-in verification for this video.");
+    }else{
+      toast(msg || "Unable to fetch video information");
+    }
 
   }
 
@@ -943,8 +953,8 @@ function renderQueue(){
 
     const type =
       item.type === "mp3"
-      ? "🎵 MP3"
-      : "🎬 Video";
+      ? "ðŸŽµ MP3"
+      : "ðŸŽ¬ Video";
 
     const status =
       String(item.status || "Waiting").toLowerCase();
@@ -960,7 +970,7 @@ function renderQueue(){
           </div>
 
           <div class="itemMeta">
-            ${type} • ${escapeHTML(item.quality || item.format || "")}
+            ${type} â€¢ ${escapeHTML(item.quality || item.format || "")}
           </div>
 
         </div>
@@ -1093,16 +1103,16 @@ async function loadProgress(){
       p.status || "Downloading...";
 
     $("progressFilename").textContent =
-      p.filename || "—";
+      p.filename || "â€”";
 
     $("speed").textContent =
-      p.speed || "—";
+      p.speed || "â€”";
 
     $("size").textContent =
-      p.size || "—";
+      p.size || "â€”";
 
     $("eta").textContent =
-      p.eta || "—";
+      p.eta || "â€”";
 
     $("statusText").textContent =
       p.status || "Downloading";
@@ -1231,8 +1241,8 @@ function renderHistory(){
 
     const type =
       item.type === "mp3"
-      ? "🎵 MP3"
-      : "🎬 Video";
+      ? "ðŸŽµ MP3"
+      : "ðŸŽ¬ Video";
 
     const title =
       item.title ||
@@ -1251,7 +1261,7 @@ function renderHistory(){
 
           <div class="itemMeta">
             ${type}
-            •
+            â€¢
             ${escapeHTML(item.quality || item.format || "")}
           </div>
 
@@ -1351,3 +1361,4 @@ progressTimer =
 
 </body>
 </html>
+
