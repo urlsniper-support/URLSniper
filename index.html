@@ -433,10 +433,10 @@ footer{
 <header>
   <div class="container nav">
     <div class="logo">
-      <div class="logoIcon">âš¡</div>
+      <div class="logoIcon">&#9889;</div>
       URLSniper
     </div>
-    <div class="online">â— ONLINE</div>
+    <div class="online">&#9679; ONLINE</div>
   </div>
 </header>
 
@@ -444,7 +444,7 @@ footer{
 
 <section class="hero">
   <h1>Download Anything.</h1>
-  <p>Fast â€¢ Simple â€¢ Premium YouTube Downloader</p>
+  <p>Fast &bull; Simple &bull; Premium YouTube Downloader</p>
 </section>
 
 <section class="card">
@@ -512,13 +512,13 @@ footer{
     <button id="videoBtn"
       class="btnPrimary bigBtn"
       onclick="downloadVideo()">
-      ðŸŽ¬ Download Video
+      &#127916; Download Video
     </button>
 
     <button id="mp3Btn"
       class="btnGreen bigBtn"
       onclick="downloadMP3()">
-      ðŸŽµ Download MP3
+      &#127925; Download MP3
     </button>
 
   </div>
@@ -565,7 +565,7 @@ footer{
   </div>
 
   <div style="display:flex;gap:10px;margin-top:18px">
-    <button class="btnDanger" onclick="cancelDownload()">âœ• Cancel</button>
+    <button class="btnDanger" onclick="cancelDownload()">&#10006; Cancel</button>
     <button id="fileBtn" class="btnBlue" onclick="downloadFile()" style="display:none">
       â¬‡ Download File
     </button>
@@ -576,7 +576,7 @@ footer{
 <section class="card">
 
   <div class="queueHeader">
-    <h2>ðŸ“‹ Download Queue</h2>
+    <h2>&#128203; Download Queue</h2>
     <div>
       <span id="queueCount" class="badge">0</span>
       <button class="btnDanger" onclick="clearQueue()">Clear Queue</button>
@@ -592,7 +592,7 @@ footer{
 <section class="card">
 
   <div class="historyHeader">
-    <h2>ðŸ•˜ Download History</h2>
+    <h2>&#128337; Download History</h2>
     <button class="btnDanger" onclick="clearHistory()">Clear All</button>
   </div>
 
@@ -619,7 +619,7 @@ footer{
 </main>
 
 <footer>
-  URLSniper Â© 2026 â€¢ Premium Downloader
+URLSniper &copy; 2026 &bull; Premium Downloader
 </footer>
 
 <div id="toastBox" class="toastBox"></div>
@@ -953,8 +953,8 @@ function renderQueue(){
 
     const type =
       item.type === "mp3"
-      ? "ðŸŽµ MP3"
-      : "ðŸŽ¬ Video";
+      ? "&#127925; MP3"
+      : "&#127916; Video";
 
     const status =
       String(item.status || "Waiting").toLowerCase();
@@ -970,7 +970,7 @@ function renderQueue(){
           </div>
 
           <div class="itemMeta">
-            ${type} â€¢ ${escapeHTML(item.quality || item.format || "")}
+            ${type} &bull; ${escapeHTML(item.quality || item.format || "")}
           </div>
 
         </div>
@@ -1241,8 +1241,8 @@ function renderHistory(){
 
     const type =
       item.type === "mp3"
-      ? "ðŸŽµ MP3"
-      : "ðŸŽ¬ Video";
+      ? "&#127925; MP3"
+      : "&#127916; Video";
 
     const title =
       item.title ||
@@ -1261,7 +1261,7 @@ function renderHistory(){
 
           <div class="itemMeta">
             ${type}
-            â€¢
+            &bull;
             ${escapeHTML(item.quality || item.format || "")}
           </div>
 
