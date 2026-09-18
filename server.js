@@ -1,4 +1,4 @@
-﻿const express = require("express");
+const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const { spawn, execFile } = require("child_process");
@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
 const DOWNLOAD_DIR = path.join(ROOT, "downloads");
 const HISTORY_FILE = path.join(ROOT, "history.json");
-const YTDLP = path.join(ROOT, "yt-dlp.exe");
+const YTDLP = process.platform === "win32" ? path.join(ROOT, "yt-dlp.exe") : path.join(ROOT, "yt-dlp_linux"); if (process.platform !== "win32") { try { fs.chmodSync(YTDLP, 0o755); } catch (e) {} }
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -1257,4 +1257,5 @@ app.listen(
         console.log("");
     }
 );
+
 
